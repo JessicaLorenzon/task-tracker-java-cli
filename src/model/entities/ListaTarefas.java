@@ -2,6 +2,7 @@ package model.entities;
 
 import model.entities.enums.TarefaStatus;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class ListaTarefas {
 
     public void adicionarTarefa(String conteudo) {
         if (conteudo.isBlank()) {
-            imprimir("Tarefa em branco");
+            imprimir("Tarefa em branco. Tente novamente!");
         } else {
             tarefas.add(new Tarefa(proximoId, conteudo, TarefaStatus.PENDENTE));
             imprimir("Tarefa adicionada com sucesso (ID: " + getProximoId() + ")");
@@ -41,6 +42,15 @@ public class ListaTarefas {
         if (tarefaRemover != null) {
             tarefas.remove(tarefaRemover);
             imprimir("Tarefa com ID: " + id + " removida com sucesso!");
+        }
+    }
+
+    public void atualizarTarefa(Integer id, String conteudo) {
+        Tarefa tarefaAtualizar = procurarTarefaPorId(id);
+        if (tarefaAtualizar != null) {
+            tarefaAtualizar.setConteudo(conteudo);
+            tarefaAtualizar.setDataAtualizacao(LocalDateTime.now());
+            imprimir("Tarefa com ID: " + id + " atualizada com sucesso!");
         }
     }
 

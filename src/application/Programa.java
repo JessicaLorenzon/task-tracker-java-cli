@@ -14,7 +14,9 @@ public class Programa {
 //        listaTarefas.adicionarTarefa("tarefaTeste2");
 //        listaTarefas.adicionarTarefa("tarefaTeste3");
 
-        listaTarefas.removerTarefa(2);
+//        listaTarefas.removerTarefa(2);
+
+        listaTarefas.atualizarTarefa(1, "aaaa");
 
         jsonService.salvarTarefas(listaTarefas);
     }

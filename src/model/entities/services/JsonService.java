@@ -28,7 +28,6 @@ public class JsonService {
 
         try (FileWriter writer = new FileWriter(NomeDoArquivo)) {
             writer.write(json);
-            System.err.println("Tarefas salvas com sucesso!");
         } catch (IOException e) {
             System.err.println("Erro ao salvar tarefas: " + e.getMessage());
         }
@@ -40,17 +39,13 @@ public class JsonService {
                 Type tipagem = new TypeToken<ListaTarefas>() {
                 }.getType();
 
-                System.err.println("Tarefas carregadas com sucesso!");
-
                 return gson.fromJson(reader, tipagem);
 
             } catch (IOException e) {
                 System.err.println("Erro ao carregar tarefas: " + e.getMessage());
                 return null;
             }
-        } else {
-            System.out.println("Nao encontrado");
-            return new ListaTarefas();
         }
+        return new ListaTarefas();
     }
 }
