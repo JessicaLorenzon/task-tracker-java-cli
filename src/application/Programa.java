@@ -1,34 +1,21 @@
 package application;
 
-import model.entities.Tarefa;
-import model.entities.enums.TarefaStatus;
+import model.entities.ListaTarefas;
 import model.entities.services.JsonService;
-
-import java.util.ArrayList;
 
 public class Programa {
 
     public static void main(String[] args) {
-        ArrayList<Tarefa> tarefas = new ArrayList<>();
-
-        Tarefa tarefa1 = new Tarefa(1, "teste1", TarefaStatus.EM_ANDAMENTO);
-        Tarefa tarefa2 = new Tarefa(2, "teste2", TarefaStatus.CONCLUIDO);
-
-        tarefas.add(tarefa1);
-        tarefas.add(tarefa2);
-
-        for (Tarefa tarefa : tarefas) {
-            System.out.println(tarefa);
-        }
-
         JsonService jsonService = new JsonService();
 
-        jsonService.salvarTarefas(tarefas);
+        ListaTarefas listaTarefas = jsonService.carregarTarefas();
 
-        ArrayList<Tarefa> tarefasArquivo = jsonService.carregarTarefas();
+//        listaTarefas.adicionarTarefa("tarefaTeste");
+//        listaTarefas.adicionarTarefa("tarefaTeste2");
+//        listaTarefas.adicionarTarefa("tarefaTeste3");
 
-        for (Tarefa tarefa : tarefasArquivo) {
-            System.out.println(tarefa);
-        }
+        listaTarefas.removerTarefa(2);
+
+        jsonService.salvarTarefas(listaTarefas);
     }
 }
