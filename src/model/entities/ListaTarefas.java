@@ -38,7 +38,7 @@ public class ListaTarefas {
     }
 
     public void removerTarefa(Integer id) {
-        Tarefa tarefaRemover = procurarTarefaPorId(id);
+        Tarefa tarefaRemover = procurarPorId(id);
         if (tarefaRemover != null) {
             tarefas.remove(tarefaRemover);
             imprimir("Tarefa com ID: " + id + " removida com sucesso!");
@@ -46,7 +46,7 @@ public class ListaTarefas {
     }
 
     public void atualizarTarefa(Integer id, String conteudo) {
-        Tarefa tarefaAtualizar = procurarTarefaPorId(id);
+        Tarefa tarefaAtualizar = procurarPorId(id);
         if (tarefaAtualizar != null) {
             tarefaAtualizar.setConteudo(conteudo);
             tarefaAtualizar.setDataAtualizacao(LocalDateTime.now());
@@ -54,7 +54,36 @@ public class ListaTarefas {
         }
     }
 
-    public Tarefa procurarTarefaPorId(Integer id) {
+    public void marcarEmAndamento(Integer id) {
+        alterarStatus(TarefaStatus.EM_ANDAMENTO, id);
+    }
+
+    public void marcarConcluida(Integer id) {
+        alterarStatus(TarefaStatus.CONCLUIDA, id);
+    }
+
+    public void listarTodas() {
+        if (tarefas.isEmpty()) {
+            imprimir("Lista de tarefas vazia. Adicione uma tarefa!");
+        }
+        for (Tarefa tarefa : tarefas) {
+            System.out.println(tarefa);
+        }
+    }
+
+    public void listarConcluidas() {
+        procurarPorStatus(TarefaStatus.CONCLUIDA);
+    }
+
+    public void listarPendentes() {
+        procurarPorStatus(TarefaStatus.PENDENTE);
+    }
+
+    public void listarEmAndamento() {
+        procurarPorStatus(TarefaStatus.EM_ANDAMENTO);
+    }
+
+    public Tarefa procurarPorId(Integer id) {
         for (Tarefa tarefa : tarefas) {
             if (tarefa.getId() == id) {
                 return tarefa;
@@ -64,8 +93,29 @@ public class ListaTarefas {
         return null;
     }
 
+    public void procurarPorStatus(TarefaStatus status) {
+        boolean statusEncontrado = false;
+        for (Tarefa tarefa : tarefas) {
+            if (tarefa.getStatus() == status) {
+                System.out.println(tarefa);
+                statusEncontrado = true;
+            }
+        }
+        if (!statusEncontrado) {
+            imprimir("Nenhuma tarefa com o status " + status + " encontrada.");
+        }
+    }
+
+    public void alterarStatus(TarefaStatus status, Integer id) {
+        Tarefa tarefaAlterarStatus = procurarPorId(id);
+        if (tarefaAlterarStatus != null) {
+            tarefaAlterarStatus.setStatus(status);
+            tarefaAlterarStatus.setDataAtualizacao(LocalDateTime.now());
+            imprimir("Status da tarefa com ID: " + id + " alterado com sucesso!");
+        }
+    }
+
     public void imprimir(String texto) {
         System.out.println(texto);
     }
-
 }
