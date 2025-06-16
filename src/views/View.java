@@ -16,6 +16,10 @@ public class View {
                 ", Atualizaçao: " + tarefa.getDataAtualizacao().format(formatacaoData);
     }
 
+    public void imprimirMensagem(String texto) {
+        System.out.println(texto);
+    }
+
     public static String exibirAjuda() {
         return """
                 MENU DE AÇÕES

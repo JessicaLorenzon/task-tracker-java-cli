@@ -8,6 +8,7 @@ public class Programa {
 
     public static void main(String[] args) {
         JsonService jsonService = new JsonService();
+
         CliController cliController = new CliController();
 
         ListaTarefas listaTarefas = jsonService.carregarTarefas();

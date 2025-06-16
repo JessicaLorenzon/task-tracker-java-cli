@@ -12,30 +12,22 @@ public class ListaTarefas {
     private List<Tarefa> tarefas = new ArrayList<>();
     private Integer proximoId = 1;
 
-    View view = new View();
+    private View view = new View();
 
     public List<Tarefa> getTarefas() {
         return tarefas;
-    }
-
-    public void setTarefas(List<Tarefa> tarefas) {
-        this.tarefas = tarefas;
     }
 
     public Integer getProximoId() {
         return proximoId;
     }
 
-    public void setProximoId(Integer proximoId) {
-        this.proximoId = proximoId;
-    }
-
     public void adicionarTarefa(String conteudo) {
         if (conteudo.isBlank()) {
-            imprimir("Tarefa em branco. Tente novamente!");
+            view.imprimirMensagem("Tarefa em branco. Tente novamente!");
         } else {
             tarefas.add(new Tarefa(proximoId, conteudo, TarefaStatus.PENDENTE));
-            imprimir("Tarefa adicionada com sucesso (ID: " + getProximoId() + ")");
+            view.imprimirMensagem("Tarefa adicionada com sucesso (ID: " + getProximoId() + ")");
             proximoId++;
         }
     }
@@ -44,30 +36,32 @@ public class ListaTarefas {
         Tarefa tarefaRemover = procurarPorId(id);
         if (tarefaRemover != null) {
             tarefas.remove(tarefaRemover);
-            imprimir("Tarefa com ID: " + id + " removida com sucesso!");
+            view.imprimirMensagem("Tarefa com ID: " + id + " removida com sucesso!");
         }
     }
 
     public void atualizarTarefa(Integer id, String conteudo) {
         Tarefa tarefaAtualizar = procurarPorId(id);
-        if (tarefaAtualizar != null) {
+        if (conteudo.isBlank()) {
+            view.imprimirMensagem("Tarefa em branco. Tente novamente!");
+        } else if (tarefaAtualizar != null) {
             tarefaAtualizar.setConteudo(conteudo);
             tarefaAtualizar.setDataAtualizacao(LocalDateTime.now());
-            imprimir("Tarefa com ID: " + id + " atualizada com sucesso!");
+            view.imprimirMensagem("Tarefa com ID: " + id + " atualizada com sucesso!");
         }
     }
 
     public void marcarEmAndamento(Integer id) {
-        alterarStatus(TarefaStatus.EM_ANDAMENTO, id);
+        atualizarStatus(TarefaStatus.EM_ANDAMENTO, id);
     }
 
     public void marcarConcluida(Integer id) {
-        alterarStatus(TarefaStatus.CONCLUIDA, id);
+        atualizarStatus(TarefaStatus.CONCLUIDA, id);
     }
 
     public void listarTodas() {
         if (tarefas.isEmpty()) {
-            imprimir("Lista de tarefas vazia. Adicione uma tarefa!");
+            view.imprimirMensagem("Lista de tarefas vazia. Adicione uma tarefa!");
         }
         for (Tarefa tarefa : tarefas) {
             System.out.println(view.exibirTarefa(tarefa));
@@ -75,15 +69,15 @@ public class ListaTarefas {
     }
 
     public void listarConcluidas() {
-        procurarPorStatus(TarefaStatus.CONCLUIDA);
+        buscarPorStatus(TarefaStatus.CONCLUIDA);
     }
 
     public void listarPendentes() {
-        procurarPorStatus(TarefaStatus.PENDENTE);
+        buscarPorStatus(TarefaStatus.PENDENTE);
     }
 
     public void listarEmAndamento() {
-        procurarPorStatus(TarefaStatus.EM_ANDAMENTO);
+        buscarPorStatus(TarefaStatus.EM_ANDAMENTO);
     }
 
     public Tarefa procurarPorId(Integer id) {
@@ -92,33 +86,29 @@ public class ListaTarefas {
                 return tarefa;
             }
         }
-        imprimir("Tarefa com ID: " + id + " não encontrada!");
+        view.imprimirMensagem("Tarefa com ID: " + id + " não encontrada!");
         return null;
     }
 
-    public void procurarPorStatus(TarefaStatus status) {
+    public void buscarPorStatus(TarefaStatus status) {
         boolean statusEncontrado = false;
         for (Tarefa tarefa : tarefas) {
             if (tarefa.getStatus() == status) {
-                System.out.println(tarefa);
+                System.out.println(view.exibirTarefa(tarefa));
                 statusEncontrado = true;
             }
         }
         if (!statusEncontrado) {
-            imprimir("Nenhuma tarefa com o status " + status + " encontrada.");
+            view.imprimirMensagem("Nenhuma tarefa com o status " + status + " encontrada.");
         }
     }
 
-    public void alterarStatus(TarefaStatus status, Integer id) {
+    public void atualizarStatus(TarefaStatus status, Integer id) {
         Tarefa tarefaAlterarStatus = procurarPorId(id);
         if (tarefaAlterarStatus != null) {
             tarefaAlterarStatus.setStatus(status);
             tarefaAlterarStatus.setDataAtualizacao(LocalDateTime.now());
-            imprimir("Status da tarefa com ID: " + id + " alterado com sucesso!");
+            view.imprimirMensagem("Status da tarefa com ID: " + id + " alterado com sucesso!");
         }
-    }
-
-    public void imprimir(String texto) {
-        System.out.println(texto);
     }
 }

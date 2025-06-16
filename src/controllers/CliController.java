@@ -14,19 +14,24 @@ public class CliController {
 
         switch (args[0]) {
             case "adicionar":
+                validacaoArgumentos(args, 2);
                 listaTarefas.adicionarTarefa(args[1]);
                 break;
             case "remover":
-                listaTarefas.removerTarefa(Integer.valueOf(args[1]));
+                validacaoArgumentos(args, 2);
+                listaTarefas.removerTarefa(idValidado(args[1]));
                 break;
             case "atualizar":
-                listaTarefas.atualizarTarefa(Integer.valueOf(args[1]), args[2]);
+                validacaoArgumentos(args, 3);
+                listaTarefas.atualizarTarefa(idValidado(args[1]), args[2]);
                 break;
             case "em-andamento":
-                listaTarefas.marcarEmAndamento(Integer.valueOf(args[1]));
+                validacaoArgumentos(args, 2);
+                listaTarefas.marcarEmAndamento(idValidado(args[1]));
                 break;
             case "concluir":
-                listaTarefas.marcarConcluida(Integer.valueOf(args[1]));
+                validacaoArgumentos(args, 2);
+                listaTarefas.marcarConcluida(idValidado(args[1]));
                 break;
             case "listar":
                 if (args.length == 1) {
@@ -44,7 +49,21 @@ public class CliController {
                 System.out.println(exibirAjuda());
                 break;
             default:
-                System.out.println("Comando inválido. Use 'ajuda' para ver os comandos disponíveis.");
+                System.out.println("Entrada inválida. Use 'ajuda' para ver os comandos disponíveis.");
+        }
+    }
+
+    public void validacaoArgumentos(String[] args, int quantidadeEsperada) {
+        if (args.length < quantidadeEsperada) {
+            throw new IllegalArgumentException("Entrada inválida. Use 'ajuda' para ver os comandos disponíveis.");
+        }
+    }
+
+    public int idValidado(String args) {
+        try {
+            return Integer.parseInt(args);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("ID inválido. Use um número inteiro.");
         }
     }
 }
