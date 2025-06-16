@@ -1,9 +1,9 @@
-package model.entities.services;
+package services;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import model.entities.ListaTarefas;
+import models.ListaTarefas;
 
 import java.io.FileReader;
 import java.io.FileWriter;

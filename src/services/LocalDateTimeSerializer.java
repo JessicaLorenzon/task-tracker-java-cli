@@ -1,4 +1,4 @@
-package model.entities.services;
+package services;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

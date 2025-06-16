@@ -1,10 +1,9 @@
-package model.entities;
+package models;
 
-import model.entities.enums.TarefaStatus;
+import enums.TarefaStatus;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 public class Tarefa {
 
@@ -13,8 +12,6 @@ public class Tarefa {
     private TarefaStatus status;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAtualizacao;
-
-    private static final DateTimeFormatter formatacaoData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     public Tarefa(Integer id, String conteudo, TarefaStatus status) {
         this.id = id;
@@ -62,14 +59,5 @@ public class Tarefa {
 
     public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
-    }
-
-    @Override
-    public String toString() {
-        return "Id: " + getId() +
-                ", Conteudo: " + getConteudo() +
-                ", Status: " + getStatus() +
-                ", Criação: " + getDataCriacao().format(formatacaoData) +
-                ", Atualizaçao: " + getDataAtualizacao().format(formatacaoData);
     }
 }

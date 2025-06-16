@@ -1,6 +1,7 @@
-package model.entities;
+package models;
 
-import model.entities.enums.TarefaStatus;
+import enums.TarefaStatus;
+import views.View;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ public class ListaTarefas {
 
     private List<Tarefa> tarefas = new ArrayList<>();
     private Integer proximoId = 1;
+
+    View view = new View();
 
     public List<Tarefa> getTarefas() {
         return tarefas;
@@ -67,7 +70,7 @@ public class ListaTarefas {
             imprimir("Lista de tarefas vazia. Adicione uma tarefa!");
         }
         for (Tarefa tarefa : tarefas) {
-            System.out.println(tarefa);
+            System.out.println(view.exibirTarefa(tarefa));
         }
     }
 
